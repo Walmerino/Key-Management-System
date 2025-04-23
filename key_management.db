@@ -1,0 +1,55 @@
+import sqlite3
+
+# Connect to the database (or create it if it doesn't exist)
+conn = sqlite3.connect("key_management.db")
+cursor = conn.cursor()
+
+# Enable foreign key support
+conn.execute("PRAGMA foreign_keys = ON")
+
+# Create 'users' table
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    rfid_token TEXT UNIQUE NOT NULL
+)
+""")
+
+# Create 'keys' table
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS keys (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    rfid_token TEXT UNIQUE NOT NULL,
+    status TEXT NOT NULL,
+    FOREIGN KEY(rfid_token) REFERENCES users(rfid_token)
+)
+""")
+
+# Create 'houses' table
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS houses (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    house_name TEXT NOT NULL,
+    rfid_token TEXT UNIQUE NOT NULL,
+    FOREIGN KEY(rfid_token) REFERENCES keys(rfid_token)
+)
+""")
+
+# Create 'key_pickups' table
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS key_pickups (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_rfid TEXT,
+    house_rfid TEXT,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(user_rfid) REFERENCES users(rfid_token),
+    FOREIGN KEY(house_rfid) REFERENCES houses(rfid_token)
+)
+""")
+
+# Commit changes and close the connection
+conn.commit()
+conn.close()
+
+print("Database and tables created successfully.")
