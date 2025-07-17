@@ -68,12 +68,11 @@ def initialize_database():
     conn.close()
     messagebox.showinfo("Erfolg", "Datenbank initialisiert oder bereits vorhanden.")
     
-from PIL import Image, ImageTk  # At the top of your file
 
 def dashboard_view():
     clear_right_frame()
 
-    tk.Label(right_frame, text="🔑 Key Management System", font=("Arial", 20, "bold")).pack(pady=20)
+    tk.Label(right_frame, text="🔑 Sentinela", font=("Arial", 20, "bold")).pack(pady=20)
 
     now = datetime.now().strftime("%d.%m.%Y %H:%M")
     tk.Label(right_frame, text=f"📅 Aktuelles Datum und Uhrzeit: {now}", font=("Arial", 12)).pack(pady=5)
@@ -100,7 +99,7 @@ def dashboard_view():
     # Load and display image
     try:
         image = Image.open("logo1.png")
-        image = image.resize((600, 300), Image.Resampling.LANCZOS)
+        image = image.resize((300, 350), Image.Resampling.LANCZOS)
         photo = ImageTk.PhotoImage(image)
 
         img_label = tk.Label(right_frame, image=photo)
@@ -541,10 +540,10 @@ def view_assigned_keys_view():
         'font': ('Arial', 10)
     }
     
-    refresh_btn = tk.Button(top_frame, text="🔄 Refresh", bg="#e6f3ff", **btn_style)
-    show_nr_btn = tk.Button(top_frame, text="🔍 Non-Returned", bg="#fff2e6", **btn_style)
-    export_nr_btn = tk.Button(top_frame, text="📤 Export NR CSV", bg="#e6ffe6", **btn_style) 
-    export_all_btn = tk.Button(top_frame, text="📊 Export All CSV", bg="#f0e6ff", **btn_style)
+    refresh_btn = tk.Button(top_frame, text="Refresh", bg="#e6f3ff", **btn_style)
+    show_nr_btn = tk.Button(top_frame, text="Non-Returned", bg="#fff2e6", **btn_style)
+    export_nr_btn = tk.Button(top_frame, text="Export NR CSV", bg="#e6ffe6", **btn_style) 
+    export_all_btn = tk.Button(top_frame, text="Export All CSV", bg="#f0e6ff", **btn_style)
     
     # Pack buttons horizontally
     refresh_btn.pack(side=tk.LEFT, padx=5)
@@ -737,7 +736,7 @@ def view_assigned_keys_view():
 
 # GUI Setup
 root = tk.Tk()
-root.title("Key Management System")
+root.title("Sentinela")
 root.geometry("1000x600")
 
 main_frame = tk.Frame(root)
